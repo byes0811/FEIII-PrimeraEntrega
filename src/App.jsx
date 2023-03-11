@@ -3,7 +3,6 @@ import "./App.css";
 import Card from "./Components/Card";
 
 function App() {
-
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   const [color, setColor] = useState("");
@@ -22,11 +21,35 @@ function App() {
     setColor(event.target.value);
   };
 
+  const validMarca = (marca) => {
+    if (marca.trim().length >= 3) {
+      return true;
+    } else {
+      setError(
+        "Por favor chequea que la informacion sea correcta. La marca debe tener al menos 3 caracteres sin espacios."
+      );
+      return false;
+    }
+  };
+
+  const validModelo = (modelo) => {
+    if (modelo.length >= 6) {
+      return true;
+    } else {
+      setError(
+        "Por favor chequea que la informacion sea correcta. El modelo debe tener al menos 6 caracteres."
+      );
+      return false;
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (marca.trim().length < 3 || modelo.length < 6) {
-      setError("Por favor chequea que la información sea correcta");
+    const isValidMarca = validMarca(marca);
+    const isValidModelo = validModelo(modelo);
+
+    if (!isValidMarca || !isValidModelo) {
       setSend(false);
     } else {
       setError("");
@@ -38,7 +61,10 @@ function App() {
     <div className="App">
       <h2>Primera Entrega Front End III</h2>
       <h3>Registro del vehiculo</h3>
-      <form onSubmit={handleSubmit} style={{background:"#F2F3EF", padding:"1em", border: "solid"}}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ background: "#F2F3EF", padding: "1em", border: "solid" }}
+      >
         <input
           type="text"
           size="35"
@@ -46,7 +72,7 @@ function App() {
           value={marca}
           onChange={onChangeMarca}
         />
-        <br/>
+        <br />
         <input
           type="text"
           size="35"
@@ -54,7 +80,7 @@ function App() {
           value={modelo}
           onChange={onChangeModelo}
         />
-        <br/>
+        <br />
         <input
           type="text"
           size="35"
@@ -62,7 +88,7 @@ function App() {
           value={color}
           onChange={onChangeColor}
         />
-        <br/>
+        <br />
         <input type="submit" value="Enviar"></input>
       </form>
       <div className="error">{error}</div>
